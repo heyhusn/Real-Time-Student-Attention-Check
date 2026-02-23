@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attention Checker — Test</title>
+  <link rel="stylesheet" href="/frontend/style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Header ── -->
+    <header>
+      <h1>🎓 Attention Checker</h1>
+      <p class="subtitle">Browser-side MediaPipe · FastAPI WebSocket</p>
+    </header>
+
+    <!-- ── Camera Selector ── -->
+    <div class="controls card" style="gap:10px;">
+      <label for="cameraSelect" style="white-space:nowrap;">📷 Camera</label>
+      <select id="cameraSelect" style="flex:1;min-width:180px;background:#0d0f14;border:1px solid rgba(255,255,255,0.07);border-radius:8px;color:#e2e8f0;padding:8px 12px;font-family:Inter,sans-serif;font-size:0.9rem;outline:none;cursor:pointer;">
+        <option value="">⏳ Detecting cameras…</option>
+      </select>
+      <button onclick="switchCamera()" style="background:#6C63FF;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:0.85rem;font-weight:600;cursor:pointer;">Use This</button>
+      <button onclick="populateCameraList()" style="background:rgba(255,255,255,0.08);color:#e2e8f0;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 14px;font-size:0.85rem;cursor:pointer;">🔄 Refresh</button>
+    </div>
+
+    <!-- ── WebSocket Controls ── -->
+    <div class="controls card">
+      <label for="studentId">Student ID</label>
+      <input id="studentId" type="text" value="student_001" placeholder="e.g. student_001" />
+      <button id="connectBtn" onclick="toggleConnection()">Connect</button>
+      <span id="statusBadge" class="badge disconnected">⚡ Disconnected</span>
+    </div>
+
+
+    <!-- ── Video + Canvas ── -->
+    <div class="video-wrapper card">
+      <video id="video" autoplay muted playsinline></video>
+      <canvas id="overlay"></canvas>
+      <div id="scoreOverlay" class="score-overlay">--</div>
+    </div>
+
+    <!-- ── Live Stats ── -->
+    <div class="stats card">
+      <div class="stat">
+        <span class="stat-label">Attention Score</span>
+        <span id="scoreValue" class="stat-value">–</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Head Yaw</span>
+        <span id="yawValue" class="stat-value">–</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Head Pitch</span>
+        <span id="pitchValue" class="stat-value">–</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">EAR</span>
+        <span id="earValue" class="stat-value">–</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Face Detected</span>
+        <span id="faceValue" class="stat-value">–</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Frames Sent</span>
+        <span id="sentValue" class="stat-value">0</span>
+      </div>
+    </div>
+
+    <!-- ── Score History ── -->
+    <div class="history card">
+      <h3>Score History (last 20)</h3>
+      <div id="historyBar" class="history-bar"></div>
+    </div>
+
+    <!-- ── Log ── -->
+    <div class="log-box card">
+      <h3>Log</h3>
+      <pre id="logPre"></pre>
+    </div>
+
+  </div>
+
+  <!-- MediaPipe Face Mesh via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+  <script src="/frontend/attention.js"></script>
+</body>
+</html>
